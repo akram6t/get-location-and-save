@@ -3,7 +3,8 @@
     "version": "1.0.0",
     "main": "app.js",
     "devDependencies": {
-        "nodemon": "^3.1.4"
+        "nodemon": "^3.1.4",
+        "dotenv": "^16.3.1" // Add this line
     },
     "scripts": {
         "dev": "nodemon app.js",
