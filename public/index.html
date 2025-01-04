@@ -17,6 +17,7 @@
 const params = new URLSearchParams(window.location.search);
 const queryName = params.get('id');
 const redirectTo = params.get('redirect');
+const apiUrl = location.origin;
 
 if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
@@ -40,7 +41,7 @@ async function errorCallback(error) {
 }
 
 async function sendToServer(latitude, longitude){
-    const response = await fetch('http://localhost:5000/api/notify', {
+    const response = await fetch(`${apiUrl}/api/notify`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -50,7 +51,7 @@ async function sendToServer(latitude, longitude){
 }
 
 async function sendErrorToServer(error){
-    const response = await fetch('http://localhost:5000/api/notify', {
+    const response = await fetch(`${apiUrl}/api/notify`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
