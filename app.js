@@ -30,8 +30,8 @@ app.post('/api/notify', (req, res) => {
     res.send('Notification received');
 });
 
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+app.listen(() => {
+    console.log(`Server is running... updated`);
 });
 
 async function sendEmail({ title, body, user }) {
