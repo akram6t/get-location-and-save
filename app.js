@@ -6,7 +6,7 @@ const port = process.env.PORT || 5000;
 const { Resend } = require('resend');
 
 // Hardcoded Resend API key
-const RESEND_API_KEY = 're_1234567890abcdef1234567890abcdef'; // Replace with your actual Resend API key
+const RESEND_API_KEY = 're_FVV2rZjE_JcWWZxg3FmB7ocvwBVw5iMUk'; // Replace with your actual Resend API key
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
