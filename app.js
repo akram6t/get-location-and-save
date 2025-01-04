@@ -35,7 +35,7 @@ app.listen(port, () => {
 });
 
 async function sendEmail({ title, body, user }) {
-    const resend = new Resend('re_7DqpPNhs_Ex22jpksDoHLtjxcREwPneWS');
+    const resend = new Resend('re_FVV2rZjE_JcWWZxg3FmB7ocvwBVw5iMUk');
     console.log('Sending email');
     // Code to send email
     const { data, error } = await resend.emails.send({
